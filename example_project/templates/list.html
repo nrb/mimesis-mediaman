@@ -1,0 +1,11 @@
+<html>
+<body>
+<h1>All Somethings</h1>
+<ul>
+    {% for thing in list %}
+    <li><a href="{% url exampleapp.views.edit thing.id %}">{{ thing }}</a> ({% for item in thing.media %}{{ item }}, {% endfor %})</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url exampleapp.views.edit %}">New Something</a></p>
+</body>
+</html>
