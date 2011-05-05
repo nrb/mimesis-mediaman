@@ -1,0 +1,14 @@
+    <h3>Preview</h3>
+
+{% if media_item.media_type == "image" %}
+    <img src="{{ media_item.media.url }}" width="325">
+{% endif %}
+
+{% if media_item.media_type == "video" %}
+    <object width="325" height="260"><param name="movie" value="http://www.youtube.com/v/{{ media_item.media }}?fs=1&amp;hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/{{ media_item.media }}?fs=1&amp;hl=en_US" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="320" height="240"></embed></object>
+{% endif %}
+
+    <p>Caption: {{ media_item.caption }}</p>
+    <p>Tags: {% for tag in media_item.tags.all %}{{ tag }} {% endfor %}</p>
+    
+    <input type="button" value="Attach" />

@@ -1,0 +1,16 @@
+    <form enctype="multipart/form-data" action="/mediaman/mediaselector/upload/" method="post">
+        {% csrf_token %}
+        <div class="inputrow">
+            <div class="inputgroup left">
+                <input type="file" name="media" size="15" />
+            </div>
+            <div class="inputgroup right">
+                <label for="status">Show:</label>
+                <input type="radio" name="status" value="unattached" checked="checked">Your Unused Media</input>
+                <input type="radio" name="status" value="all">All Your Media</input>
+            </div>
+        </div>
+    </form>
+    <ul class="medialist">
+        {% include "mediaman/list.html" %}
+    </ul>
