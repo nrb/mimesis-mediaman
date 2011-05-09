@@ -1,5 +1,40 @@
 var MEDIAMAN = {
 
+ignoreTagsList: ['a', 'an', 'as', 'at', 'before', 'but', 'by', 'for',
+    'from', 'is', 'in', 'into', 'like', 'of', 'off', 'on', 'onto', 'per',
+    'since', 'than', 'the', 'this', 'that', 'to', 'up', 'via', 'with'],
+tagsFromString: function (srcString) {
+    var srcArray = srcString.match(/[A-Za-z0-9]+/g);
+    if (srcArray === null) {
+        return '';
+    }
+    MEDIAMAN.ignoreTagsList.each(function (nonTag) {
+        srcArray.erase(nonTag);
+    });
+    return srcArray.join(' ').toLowerCase();
+},
+addAutoTag: function (sourceField, tagField) {
+    var src = document.id(sourceField),
+        dest = document.id(tagField);
+    src.addEvent('change', function () {
+        var possibleTags = MEDIAMAN.tagsFromString(src.get('value')),
+            tagRequest;
+        if (possibleTags) {
+            tagRequest = new Request({
+                url: '/mediaman/check_tags/',
+                method: 'get',
+                data: {'tags': possibleTags}
+            });
+            tagRequest.addEvent('success', function (verifiedTags) {
+                dest.set('value', verifiedTags);
+            });
+            tagRequest.send();
+            return;
+        }
+        dest.set('value', '');
+    });
+},
+
 MediaSelector: new Class({
     initialize: function (container, form, options) {
         var attachedFieldValue,
@@ -36,7 +71,7 @@ MediaSelector: new Class({
                 data: {
                     model: this.model,
                     media: attachedValue,
-                    searchtags: (this.tagField.get('value').match(/[A-Za-z0-9]+/g) || []).join(' ').toLowerCase()
+                    searchtags: this.tagField && this.tagField.get('value')
                 }
             });
         selectorRequest.addEvent('complete', this.loadedSelector.bind(this));
@@ -121,7 +156,11 @@ MediaSelector: new Class({
     },
     loadedUploadForm: function () {
         var form = this.selectContainer.getElement('form'),
+            uploadForm = form.getElement('div.inputgroup.upload'),
+            embedForm = form.getElement('div.inputgroup.embed'),
             fileInput = form.getElement('input[type="file"]'),
+            embedInput = form.getElement('input[type="text"]'),
+            embedButton = form.getElement('input[type="button"]'),
             count = 0,
             frameId,
             mediaList = this.selectContainer.getElement('ul.medialist');
@@ -154,6 +193,7 @@ MediaSelector: new Class({
                     }
                     fileInput.blur();
                     fileInput.set('value', '');
+                    embedInput.set('value', '');
                 }.bind(this)
             }
         });
@@ -164,8 +204,22 @@ MediaSelector: new Class({
         fileInput.addEvent('change', function () {
             form.submit();
         });
+        embedButton.addEvent('click', function () {
+            form.submit();
+        });
         
-        this.selectContainer.getElements('input[type="radio"]').addEvent('click', function () {
+        //
+        this.selectContainer.getElements('input[name="mediaman-upload-type"]').addEvent('click', function () {
+            if (form.getElement('input[value="upload"]').get('checked')) {
+                embedForm.setStyle('display', 'none');
+                uploadForm.setStyle('display', 'block');
+                return;
+            }
+            uploadForm.setStyle('display', 'none');
+            embedForm.setStyle('display', 'block');
+        });
+        // add events to filter the list
+        this.selectContainer.getElements('input[name="mediaman-upload-status"]').addEvent('click', function () {
             if (form.getElement('input[value="unattached"]').get('checked')) {
                 // if "Unattached" is checked, hide all attached media
                 mediaList.getElements('.attached').setStyle('display', 'none');
@@ -243,7 +297,6 @@ MediaSelector: new Class({
     loadedEditForm: function () {
         var mediaId = this.previewContainer.getElement('span.itemid').get('text'),
             form = this.previewContainer.getElement('form');
-        console.log('loaded edit form');
         MEDIAMAN.addAutoTag('id_mediaman-caption', 'id_mediaman-tags');
         form.addEvent('submit', function () {
             var editRequest = new Request.HTML({
@@ -306,41 +359,6 @@ MediaSelector: new Class({
             }
         }));
     }
-}),
-
-ignoreTagsList: ['a', 'an', 'as', 'at', 'before', 'but', 'by', 'for',
-    'from', 'is', 'in', 'into', 'like', 'of', 'off', 'on', 'onto', 'per',
-    'since', 'than', 'the', 'this', 'that', 'to', 'up', 'via', 'with'],
-tagsFromString: function (srcString) {
-    var srcArray = srcString.match(/[A-Za-z0-9]+/g);
-    if (srcArray === null) {
-        return '';
-    }
-    MEDIAMAN.ignoreTagsList.each(function (nonTag) {
-        srcArray.erase(nonTag);
-    });
-    return srcArray.join(' ').toLowerCase();
-},
-addAutoTag: function (sourceField, tagField) {
-    var src = document.id(sourceField),
-        dest = document.id(tagField);
-    src.addEvent('change', function () {
-        var possibleTags = MEDIAMAN.tagsFromString(src.get('value')),
-            tagRequest;
-        if (possibleTags) {
-            tagRequest = new Request({
-                url: '/mediaman/check_tags/',
-                method: 'get',
-                data: {'tags': possibleTags}
-            });
-            tagRequest.addEvent('success', function (verifiedTags) {
-                dest.set('value', verifiedTags);
-            });
-            tagRequest.send();
-            return;
-        }
-        dest.set('value', '');
-    });
-}
+})
 
 };

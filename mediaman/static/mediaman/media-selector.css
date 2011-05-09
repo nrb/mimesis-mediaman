@@ -52,6 +52,18 @@
     border-bottom: #1f1f1f;
 }
 
+.mediaselector h3 {
+    border-top: 1px solid #1f1f1f;
+    border-bottom: 1px solid #1f1f1f;
+    background: #525252;
+    margin: 0;
+    padding: 6px;
+    font-family: 'Arimo','Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #fff;
+}
+
 .mediaselector .selectcontainer form {
     margin: 0;
 }
@@ -86,19 +98,22 @@
 .mediaselector .inputrow input[type='reset']:hover {  
 	background: #f2f2f2;
 }
+.mediaselector .inputrow h3 {
+    border: 0;
+    float: left;
+}
 .mediaselector .inputgroup.left {
     text-align: left;
     float: left;
 }
-.mediaselector .inputgroup input[type=file] {
-	width: 240px;
-	margin-right: 10px;
-}
-
 .mediaselector .inputgroup.right {
     text-align: right;
     float: right;
 }
+.mediaselector .inputgroup.embed {
+    display: none;
+}
+
 .mediaselector input.search	{
     padding: 4px;
     margin: 0px;
@@ -113,6 +128,7 @@
     margin-right: 5px;
     top: 0;
 }
+
 .mediaselector .selectcontainer .medialist {
     height: 300px;
     overflow: auto;
@@ -179,17 +195,6 @@
 }
 .mediaselector span.itemid {
     display: none;
-}
-
-.mediaselector h3 {
-    border-top: 1px solid #1f1f1f;
-    border-bottom: 1px solid #1f1f1f;
-    background: #525252;
-    margin: 0;
-    padding: 6px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #fff;
 }
 
 .mediaselector .previewcontainer {

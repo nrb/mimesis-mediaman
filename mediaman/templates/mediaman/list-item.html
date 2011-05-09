@@ -1,11 +1,9 @@
         <li{% if media_item.attachments %} class="attached"{% endif %}>
-            {% if media_item.media_type == "image" %}
-            <img width="48" height="48" src="{{media_item.media.url}}">
-            {% endif %}
+            <img width="48" height="48" src="{{ media_item.thumbnail_img_url }}">
             {% if media_item.caption %}
             <h4>{{ media_item.caption }}</h4>
             {% else %}
             <h4>No Caption.</h4>
             {% endif %}
-            <span class='itemid'>{{ media_item.id }}</span>
+            <span class="itemid">{{ media_item.id }}</span>
         </li>
