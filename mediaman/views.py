@@ -9,8 +9,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
 
 from mimesis.models import MediaUpload, MediaAssociation
-from taggit.models import Tag, TaggedItem
+from taggit.models import TaggedItem
+
 from mediaman.forms import MetadataForm
+from mediaman.utils import tags_from_string
 
 
 MEDIA_LIST_LIMIT = 20
@@ -132,9 +134,6 @@ def media_selector_edit(request, media_id):
     }, context_instance=RequestContext(request))
 
 
-def check_tags(request):
-    tag_list = request.GET.get('tags')
-    if not tag_list:
-        return HttpResponse('')
-    found_list = Tag.objects.filter(name__in=tag_list.split()).values_list('name', flat=True)
+def filter_tags(request):
+    found_list = tags_from_string(request.GET.get('s'))
     return HttpResponse(' '.join(found_list), content_type='text/plain')

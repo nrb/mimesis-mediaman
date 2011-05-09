@@ -9,7 +9,7 @@ addEvent('domready', function () {
             'edit-something-form', // form for object
             {
                 model: 'exampleapp.something', // model of object
-                tagField: 'id_name' // field, value of which should be used to
+                tagField: 'id_tags' // field, value of which should be used to
                                // search initially and prepopulate media items
             }
         );

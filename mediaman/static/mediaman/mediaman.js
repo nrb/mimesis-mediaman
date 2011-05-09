@@ -1,37 +1,18 @@
 var MEDIAMAN = {
 
-ignoreTagsList: ['a', 'an', 'as', 'at', 'before', 'but', 'by', 'for',
-    'from', 'is', 'in', 'into', 'like', 'of', 'off', 'on', 'onto', 'per',
-    'since', 'than', 'the', 'this', 'that', 'to', 'up', 'via', 'with'],
-tagsFromString: function (srcString) {
-    var srcArray = srcString.match(/[A-Za-z0-9]+/g);
-    if (srcArray === null) {
-        return '';
-    }
-    MEDIAMAN.ignoreTagsList.each(function (nonTag) {
-        srcArray.erase(nonTag);
-    });
-    return srcArray.join(' ').toLowerCase();
-},
 addAutoTag: function (sourceField, tagField) {
     var src = document.id(sourceField),
         dest = document.id(tagField);
     src.addEvent('change', function () {
-        var possibleTags = MEDIAMAN.tagsFromString(src.get('value')),
-            tagRequest;
-        if (possibleTags) {
-            tagRequest = new Request({
-                url: '/mediaman/check_tags/',
+        var tagRequest = new Request({
+                url: '/mediaman/filter_tags/',
                 method: 'get',
-                data: {'tags': possibleTags}
+                data: {'s': src.get('value')}
             });
-            tagRequest.addEvent('success', function (verifiedTags) {
-                dest.set('value', verifiedTags);
-            });
-            tagRequest.send();
-            return;
-        }
-        dest.set('value', '');
+        tagRequest.addEvent('success', function (verifiedTags) {
+            dest.set('value', verifiedTags);
+        });
+        tagRequest.send();
     });
 },
 

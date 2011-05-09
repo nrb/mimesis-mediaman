@@ -1,7 +1,10 @@
+import re
+
 from django.forms import CharField, HiddenInput
 from django.forms.util import ErrorList
 from django.contrib.contenttypes.models import ContentType
 
+from taggit.models import Tag
 from mimesis.models import MediaAssociation, MediaUpload
 
 
@@ -46,3 +49,12 @@ def add_media_selector(FormClass):
         return form
     constructor.__name__ = FormClass.__name__
     return constructor
+
+
+def tags_from_string(phrase):
+    ignore_list = ['a', 'an', 'as', 'at', 'before', 'but', 'by', 'for', 'from',
+        'is', 'in', 'into', 'like', 'of', 'off', 'on', 'onto', 'per', 'since',
+        'than', 'the', 'this', 'that', 'to', 'up', 'via', 'with']
+    word_list = re.findall(r'[A-Za-z0-9]+', phrase.lower())
+    word_list = [word for word in word_list if word not in ignore_list]
+    return Tag.objects.filter(name__in=word_list).values_list('name', flat=True)

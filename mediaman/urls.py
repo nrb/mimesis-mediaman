@@ -27,9 +27,9 @@ urlpatterns = patterns('mediaman.views',
         name='mediaman_media_selector_edit',
     ),
     
-    url(r'^check_tags/$', 
-        'check_tags',
-        name='mediaman_check_tags',
+    url(r'^filter_tags/$', 
+        'filter_tags',
+        name='mediaman_filter_tags',
     ),
 
 )
