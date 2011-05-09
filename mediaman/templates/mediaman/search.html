@@ -10,6 +10,7 @@
                 <input type="radio" name="mediatype" value="image"{% if media_type == "image" %} checked="checked"{% endif %}>Image</input>
                 <input type="radio" name="mediatype" value="video"{% if media_type == "video" %} checked="checked"{% endif %}>Video</input>
                 <input type="radio" name="mediatype" value="audio"{% if media_type == "audio" %} checked="checked"{% endif %}>Audio</input>
+                <input type="radio" name="mediatype" value="other"{% if media_type == "other" %} checked="checked"{% endif %}>Other</input>
             </div>
         {% if for_model %}     
             <div class="inputgroup right">

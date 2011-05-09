@@ -21,7 +21,10 @@ MEDIA_LIST_LIMIT = 20
 def _filter_media(media_type=None, for_model=None, search_tags=None):
     media_list = MediaUpload.objects.all()
     if media_type:
-        media_list = media_list.filter(media_type=media_type)
+        if media_type == 'other':
+            media_list = media_list.exclude(media_type__in=['image', 'video', 'audio'])
+        else:
+            media_list = media_list.filter(media_type=media_type)
     if for_model:
         (app_label, model_name) = for_model.split('.')
         ct = ContentType.objects.get(app_label=app_label, model=model_name)
