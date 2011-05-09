@@ -20,16 +20,16 @@ def _filter_media(media_type=None, for_model=None, search_tags=None):
     media_list = MediaUpload.objects.all()
     if media_type:
         media_list = media_list.filter(media_type=media_type)
-    ct = None
     if for_model:
         (app_label, model_name) = for_model.split('.')
         ct = ContentType.objects.get(app_label=app_label, model=model_name)
         media_list = media_list.filter(mediaassociation__content_type=ct)
     if search_tags:
-        tagged = TaggedItem.objects.filter(tag__name__in=search_tags.split())
-        if ct:
-            tagged = tagged.filter(content_type=ct)
-        media_list = media_list.filter(id__in=tagged.values_list('object_id', flat=True))
+        tagged_ids = TaggedItem.objects.filter(
+            tag__name__in=search_tags.split(),
+            content_type=ContentType.objects.get_for_model(MediaUpload),
+        ).values_list('object_id', flat=True)
+        media_list = media_list.filter(id__in=tagged_ids)
     return media_list.annotate(attachments=Count('mediaassociation'))
 
 
