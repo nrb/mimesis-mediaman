@@ -18,7 +18,7 @@ class TagField(CharField):
                 raise ValueError
             return parse_tags(value.lower())
         except ValueError:
-            raise ValidationError(_('Please provide a space-separated list of tags.'))
+            raise ValidationError('Please provide a space-separated list of tags.')
 
 
 class MetadataForm(ModelForm):
