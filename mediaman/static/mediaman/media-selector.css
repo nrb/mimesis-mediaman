@@ -85,7 +85,8 @@
 }
 .mediaselector .inputrow input[type='submit'],
 .mediaselector .inputrow input[type='reset'],
-.mediaselector .previewcontainer form input[type='submit'] {  
+.mediaselector .previewcontainer form input[type='submit'],
+.mediaselector .inputgroup.embed input[type=button] {  
 	background: #FFFFFF;
     border: 1px solid #bbb;
     border-radius: 0;
@@ -113,15 +114,23 @@
 .mediaselector .inputgroup.embed {
     display: none;
 }
+.mediaselector .inputgroup.left input[type=radio] {
+	margin-top: 5px;
+} 
 
-.mediaselector input.search	{
+.mediaselector input.search,
+.mediaselector input[name=mediaman-embed-url]	{
     padding: 4px;
     margin: 0px;
-    width: 472px;
     border-radius: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
-    border
+}
+.mediaselector input[name=mediaman-embed-url] {
+	    width: 200px;
+}
+.mediaselector input.search {
+	width: 472px;
 }
 .mediaselector input[type=radio] {
     margin-left: 10px;
@@ -166,11 +175,16 @@
     margin-right: 10px;
 }
 .mediaselector .medialist h4 {
-    margin: 0;
+    margin: 0 0 10px 0;
     font-size: 12px;
     line-height: 1.5em;
     color: #4a4a4a;
 }
+
+.mediaselector .file-type {
+	color: #636363;
+}
+
 .mediaselector .medialist li input {
 	background: #FFFFFF;
     border-color: #E0E0E0 -moz-use-text-color -moz-use-text-color #E0E0E0;
@@ -201,15 +215,19 @@
     display: none;
     padding-bottom: 10px;
 }
-.mediaselector .previewcontainer .image-container {
+.mediaselector .previewcontainer .media-preview {
 	max-width: 325px;
-	margin: 0 15px 0 10px;
+	margin: 0 0 10px 10px;
 	float: left;
+}
+.mediaselector .previewcontainer .file-details {  
+	float: left;
+	margin-left: 15px;
+	width: 240px;
 }
 .mediaselector .previewcontainer img {
 	float: left;
-	margin: 0; 
-	padding: 0;
+	margin: 0 0 0 0; 
 }
 .mediaselector .previewcontainer form {
 	padding: 0;
@@ -265,7 +283,8 @@
 	float: left; 
 	color: #5F5F5F;
 	font-weight: 300;
-	font-family: 'Arimo','Helvetica Neue', Arial, sans-serif;	
+	font-family: 'Arimo','Helvetica Neue', Arial, sans-serif;
+	margin: 10px 0;	
 }
 .mediaselector .previewcontainer input.mimesis.button:hover { 
 	background-position: 0 -25px; 
