@@ -1,6 +1,6 @@
 import re
 
-from django.forms import ModelForm, CharField, Textarea
+from django.forms import ModelForm, CharField, Textarea, ValidationError
 
 from mimesis.models import MediaUpload
 from taggit.forms import TagWidget
@@ -18,7 +18,7 @@ class TagField(CharField):
                 raise ValueError
             return parse_tags(value.lower())
         except ValueError:
-            raise forms.ValidationError(_('Please provide a space-separated list of tags.'))
+            raise ValidationError(_('Please provide a space-separated list of tags.'))
 
 
 class MetadataForm(ModelForm):
