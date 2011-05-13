@@ -137,11 +137,6 @@
     margin-right: 5px;
     top: auto;
 }
-.mediaselector li input[type=radio] {
-    right: 0;
-    position: absolute;
-    bottom: 4px;
-}
 .mediaselector .selectcontainer .medialist {
     height: 300px;
     overflow: auto;
@@ -174,6 +169,9 @@
 .mediaselector .medialist li.selected {
     background: #f4f4f4;
 }
+.mediaselector span.itemid {
+    display: none;
+}
 .mediaselector .medialist img {
     float: left;
     margin-right: 10px;
@@ -188,8 +186,7 @@
 .mediaselector .file-type {
 	color: #636363;
 }
-
-.mediaselector .medialist li input[value=x] {
+.mediaselector .medialist li input[value="x"] {
 	background: #f4f4f4;
     border-color: #E0E0E0 -moz-use-text-color -moz-use-text-color #E0E0E0;
 	border-top: none;
@@ -211,8 +208,11 @@
 	background: #F8F8F8;
 	color: #ca0002;
 }
-.mediaselector span.itemid {
-    display: none;
+.mediaselector .primary-selector {
+    right: 0;
+    position: absolute;
+    bottom: 4px;
+    color: #636363;
 }
 
 .mediaselector .previewcontainer {

@@ -321,11 +321,18 @@ MediaSelector: new Class({
     },
     setupAttachedItem: function (listItem) {
         var itemId = listItem.getElement('span.itemid').get('text');
-        listItem.grab(new Element('input', {
-            'type': 'radio',
-            'name': 'primary_media',
-            'value': itemId
-        }));
+        listItem.grab(
+            new Element('div', {
+                'class': 'primary-selector',
+                'text': 'Primary'
+            }).grab(
+                new Element('input', {
+                    'type': 'radio',
+                    'name': 'primary_media',
+                    'value': itemId
+                })
+            )
+        );
         listItem.grab(new Element('input', {
             'type': 'button',
             'value': 'x',
