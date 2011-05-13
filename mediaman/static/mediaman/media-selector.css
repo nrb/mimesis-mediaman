@@ -135,9 +135,13 @@
 .mediaselector input[type=radio] {
     margin-left: 10px;
     margin-right: 5px;
-    top: 0;
+    top: auto;
 }
-
+.mediaselector li input[type=radio] {
+    right: 0;
+    position: absolute;
+    bottom: 4px;
+}
 .mediaselector .selectcontainer .medialist {
     height: 300px;
     overflow: auto;
@@ -185,22 +189,22 @@
 	color: #636363;
 }
 
-.mediaselector .medialist li input {
-	background: #FFFFFF;
+.mediaselector .medialist li input[value=x] {
+	background: #f4f4f4;
     border-color: #E0E0E0 -moz-use-text-color -moz-use-text-color #E0E0E0;
-	border-bottom: none;
+	border-top: none;
 	border-right: none;
-	border-top: 1px solid #E0E0E0;
+	border-bottom: 1px solid #B8B8B8;
 	border-left: 1px solid #E0E0E0;
-    bottom: 0;
+    top: 0;
     right: 0;  
     padding: 2px 4px;
     position: absolute;
     cursor: pointer;
     -moz-border-radius: 0;
-    -webkit-border-radius: 3px 0 0 0;
-    border-radius: 3px 0 0 0;
-    -moz-border-radius: 3px 0 0 0;
+    -webkit-border-radius: 0px 0 0 3px;
+    border-radius: 0px 0 0 3px;
+    -moz-border-radius: 0px 0 0 3px;
     color: #595858;
 }
 .mediaselector .medialist li input:hover {
