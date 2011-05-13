@@ -3,8 +3,8 @@
             {% if media_item.caption %}
             <h4>{{ media_item.caption|truncatewords:"10" }}</h4>
             {% else %}
-            <h4>No Caption.</h4>
+            <h4>No caption.</h4>
             {% endif %}
             <span class="itemid">{{ media_item.id }}</span>
-            <div class="file-type"><strong>File type:</strong> {{ media_item.media_type|capfirst }} - {{ media_item.media_subtype|upper }}</div>
+            <div class="file-type"><strong>File type:</strong> {{ media_item.media_type }}/{{ media_item.media_subtype }}</div>
         </li>
