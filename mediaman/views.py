@@ -18,7 +18,7 @@ from mediaman.utils import tags_from_string
 MEDIA_LIST_LIMIT = 20
 
 
-def _filter_media(media_type=None, for_model=None, search_tags=None):
+def _filter_media(media_type=None, for_model=None, search_tags=None, limit=MEDIA_LIST_LIMIT):
     media_list = MediaUpload.objects.all()
     if media_type:
         if media_type == 'other':
@@ -31,11 +31,14 @@ def _filter_media(media_type=None, for_model=None, search_tags=None):
         media_list = media_list.filter(mediaassociation__content_type=ct)
     if search_tags:
         tagged_ids = TaggedItem.objects.filter(
-            tag__name__in=search_tags.split(),
+            tag__name__in=search_tags.lower().split(),
             content_type=ContentType.objects.get_for_model(MediaUpload),
-        ).values_list('object_id', flat=True)
-        media_list = media_list.filter(id__in=tagged_ids)
-    return media_list.annotate(attachments=Count('mediaassociation'))
+            object_id__in=media_list.values_list('id', flat=True)
+        ).values('object_id').annotate(num=Count('pk')).order_by('-num')[:limit]
+        media_ids = [item['object_id'] for item in tagged_ids]
+        media_uploads = MediaUpload.objects.annotate(attachments=Count('mediaassociation')).in_bulk(media_ids)
+        media_list = [media_uploads[media_id] for media_id in media_ids]
+    return media_list
 
 
 def media_selector(request):
