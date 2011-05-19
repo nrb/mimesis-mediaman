@@ -32,7 +32,6 @@ def edit(request, instance_id=None):
         form = SomethingForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            form.attach_mimesis_media()
             return redirect('exampleapp.views.list')
     else:
         form = SomethingForm(instance=instance)
