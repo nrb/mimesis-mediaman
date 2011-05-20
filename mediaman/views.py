@@ -38,6 +38,8 @@ def _filter_media(media_type=None, for_model=None, search_tags=None, limit=MEDIA
         media_ids = [item['object_id'] for item in tagged_ids]
         media_uploads = MediaUpload.objects.annotate(attachments=Count('mediaassociation')).in_bulk(media_ids)
         media_list = [media_uploads[media_id] for media_id in media_ids]
+    else:
+        media_list = media_list.annotate(attachments=Count('mediaassociation'))
     return media_list
 
 
