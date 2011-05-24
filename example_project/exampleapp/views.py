@@ -7,14 +7,7 @@ from exampleapp.forms import SomethingForm
 
 
 def list(request):
-    # Querying each object individually.  Recommended when a view needs media
-    # from only one model.
-    obj_list = Something.objects.all()
-    for obj in obj_list:
-        obj.media = MediaAssociation.objects.for_model(obj)
-    
-    # current version of mimesis doesn't have this
-    #obj_list = MediaAssociation.objects.attach_to(Something.objects.all())
+    obj_list = Something.with_media.all()
          
     return render_to_response(
         'list.html',
