@@ -92,8 +92,12 @@ def media_selector_upload(request):
         else:
             url = request.POST.get('mediaman-embed-url')
             # extract the YouTube video ID
-            media = re.search(r'(?<=v=)[a-zA-Z0-9_-]+', url).group(0)
-            (media_type, media_subtype) = ('video', 'youtube')
+            matched = re.search(r'(?<=v=)[a-zA-Z0-9_-]+', url)
+            if matched:
+                media = matched.group(0)
+                (media_type, media_subtype) = ('video', 'youtube')
+            else:
+                media = None
         if media:
             media_upload = MediaUpload.objects.create(
                 media=media,
@@ -105,7 +109,8 @@ def media_selector_upload(request):
                 'mediaman/list-item.html',
                 {'media_item': media_upload},
                 RequestContext(request)
-            )            
+            )
+        return HttpResponseBadRequest()
     media_list = MediaUpload.objects.filter(creator=request.user) \
         .order_by('-created').annotate(attachments=Count('mediaassociation'))
     return render_to_response(
