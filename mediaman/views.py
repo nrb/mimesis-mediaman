@@ -58,7 +58,7 @@ def media_selector(request):
     
     return render_to_response('mediaman/media-selector.html', {
         'for_model': for_model,
-        'attached_to': 'this',
+        'attached_to': 'any',
         'media_type': 'image',
         'media_list': media_list[:MEDIA_LIST_LIMIT],
         'attached_media': attached_media,
