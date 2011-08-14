@@ -3,8 +3,8 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User
 
-from exampleapp.models import Something
-from exampleapp.forms import SomethingForm
+from mediaman.tests.exampleapp.models import Something
+from mediaman.tests.exampleapp.forms import SomethingForm
 
 from mimesis.models import MediaUpload, MediaAssociation
 

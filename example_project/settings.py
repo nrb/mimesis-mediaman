@@ -91,6 +91,6 @@ INSTALLED_APPS = (
     'taggit',
     'mimesis',
 
-    'exampleapp',
+    'mediaman.tests.exampleapp',
     'mediaman',
 )
