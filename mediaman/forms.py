@@ -1,12 +1,18 @@
 import re
 
-from django.forms import ModelForm, CharField, Textarea, HiddenInput, ValidationError
+from django.forms import ModelForm, CharField, TextInput, Textarea, HiddenInput, ValidationError
 from django.forms.util import ErrorList
 from django.contrib.contenttypes.models import ContentType
 
 from mimesis.models import MediaUpload, MediaAssociation
-from taggit.forms import TagWidget
 from taggit.utils import parse_tags
+
+
+class TagWidget(TextInput):
+    def render(self, name, value, attrs=None):
+        if value is not None and not isinstance(value, basestring):
+            value = ' '.join([o.tag for o in value.select_related("tag")])
+        return super(TagWidget, self).render(name, value, attrs)
 
 
 class TagField(CharField):
