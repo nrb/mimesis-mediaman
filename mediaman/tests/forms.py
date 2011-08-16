@@ -1,11 +1,24 @@
 from django.test import TestCase
-
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 from mediaman.tests.exampleapp.models import Something
 from mediaman.tests.exampleapp.forms import SomethingForm
 
 from mimesis.models import MediaUpload, MediaAssociation
+from mediaman.forms import TagField
+
+
+class TagFieldTests(TestCase):
+    def test_no_commas(self):
+        class TestForm(ModelForm):
+            tags = TagField()
+            class Meta:
+                model = Something
+        something = Something.objects.create(name='thing')
+        something.tags.add('herp', 'derp', 'yerp')
+        form = TestForm(instance=something)
+        self.assertFalse(',' in str(form))
 
 
 class MediaFormTests(TestCase):
@@ -130,3 +143,6 @@ class MediaFormTests(TestCase):
         obj_assocs = MediaAssociation.objects.for_model(obj)
         self.assertEqual(len(obj_assocs), 1)
         self.assertEqual(obj_assocs[0].media, media1)
+
+
+__all__ = ['TagFieldTests', 'MediaFormTests']
